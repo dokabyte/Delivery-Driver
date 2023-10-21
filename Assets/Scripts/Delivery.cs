@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
+using TMPro;
 
 public class Delivery : MonoBehaviour
 {
@@ -20,6 +20,7 @@ public class Delivery : MonoBehaviour
     bool hasBluePackage = false;
     bool hasRedPackage = false;
     private bool allBoxesDelivered = false;
+    public Timer timer;
 
 
     public int RedCrate = 3;
@@ -27,6 +28,12 @@ public class Delivery : MonoBehaviour
     public int GreenCrate = 3;
 
     SpriteRenderer spriteRenderer;
+    void PauseTime()
+    {
+        Time.timeScale = 0; // Pausa o tempo
+    }
+
+
 
     private void Start()
     {
@@ -39,6 +46,18 @@ public class Delivery : MonoBehaviour
         blueCount.text = "X " + BlueCrate.ToString();
         redCount.text = "X " + RedCrate.ToString();
         greenCount.text = "X " + GreenCrate.ToString();
+
+        // Verifica se todas as entregas foram feitas
+        if (BlueCrate <= 0 && RedCrate <= 0 && GreenCrate <= 0)
+        {
+            timer.PauseTime(); // Chama a função de pausa do Timer
+            PauseGameplay();
+        }
+    }
+
+    void PauseGameplay()
+    {
+        Time.timeScale = 0; // Pausa a gameplay
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -97,12 +116,11 @@ public class Delivery : MonoBehaviour
         if (BlueCrate <= 0 && RedCrate <= 0 && GreenCrate <= 0)
         {
             allBoxesDelivered = true;
-            PauseTime();
+            timer.PauseTime(); // Chama a função de pausa do Timer
+            PauseGameplay();
         }
+    
 
-        void PauseTime()
-        {
-            Time.timeScale = 0; // Pausa o tempo
-        }
+        
     }
 }
