@@ -15,6 +15,9 @@ public class Delivery : MonoBehaviour
     [SerializeField] TextMeshProUGUI redCount;
     [SerializeField] TextMeshProUGUI greenCount;
     [SerializeField] float destroyDelay = 0.5f;
+    int deliveriesCompleted = 0;
+    
+
 
     bool hasGreenPackage = false;
     bool hasBluePackage = false;
@@ -22,6 +25,8 @@ public class Delivery : MonoBehaviour
     private bool allBoxesDelivered = false;
     public Timer timer;
 
+    
+    
 
     public int RedCrate = 3;
     public int BlueCrate = 3;
@@ -102,6 +107,8 @@ public class Delivery : MonoBehaviour
             spriteRenderer.color = noPackageColor;
             GreenCrate--;
             UpdateUI();
+            deliveriesCompleted++;
+
         }
 
         if (collision.tag == "RedCustomer" && hasRedPackage)
@@ -111,6 +118,8 @@ public class Delivery : MonoBehaviour
             spriteRenderer.color = noPackageColor;
             RedCrate--;
             UpdateUI();
+            deliveriesCompleted++;
+
         }
 
         if (BlueCrate <= 0 && RedCrate <= 0 && GreenCrate <= 0)
@@ -118,9 +127,11 @@ public class Delivery : MonoBehaviour
             allBoxesDelivered = true;
             timer.PauseTime(); // Chama a função de pausa do Timer
             PauseGameplay();
+            VictoryScreen.instance.ShowVictoryScreen();
+            
         }
-    
 
-        
+
+
     }
 }
